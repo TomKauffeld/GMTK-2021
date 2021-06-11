@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
         controller = GetComponent<PlayerController>();
         myCableLayer = GetComponent<CableLayer>();
         viewCamera = Camera.main;
+        myCableLayer.NewCable();
     }
 
     void Update()
@@ -32,7 +33,8 @@ public class Player : MonoBehaviour
             Vector3 point = ray.GetPoint(rayDistance);
             controller.LookAt(point);
         }
-        myCableLayer.Goto(transform.position);
-        
+        myCableLayer.Goto(transform.position + new Vector3(0, -1, 0));
+        if (Input.GetKeyDown(KeyCode.Space))
+            myCableLayer.LayCable();
     }
 }

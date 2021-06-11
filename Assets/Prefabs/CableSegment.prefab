@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2393075353638522566}
   m_Layer: 0
-  m_Name: CablePart
+  m_Name: CableSegment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
