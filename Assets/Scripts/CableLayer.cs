@@ -7,7 +7,8 @@ public class CableLayer : MonoBehaviour
 {
 
     public GameObject CablePrototype;
-    public float Range;
+    public Transform CableParent = null;
+    public float Range = 10;
 
     GameObject currentCable;
 
@@ -20,9 +21,29 @@ public class CableLayer : MonoBehaviour
     
     public bool PickupCable()
     {
-        RaycastHit hit;
-        Physics.SphereCast(transform.position, Range, Vector3.forward, out hit);
 
+        GameObject[] objects = GameObject.FindGameObjectsWithTag(Cable.CABLE_END_TAG);
+        GameObject cable = null;
+        float distance = Mathf.Infinity;
+        float rangeMax = Range * Range;
+        foreach(GameObject gameObject in objects)
+        {
+
+            Vector3 position = gameObject.transform.position;
+            float dst = (transform.position - position).sqrMagnitude;
+            if (dst < rangeMax && dst < distance)
+            {
+                distance = dst;
+                cable = gameObject;
+            }
+        }
+        if (cable == null)
+            return false;
+        Cable c = cable.GetComponentInParent<Cable>();
+        if (c == null)
+            return false;
+        currentCable = c.gameObject;
+        c.MakeImaginary();
         return true;
     }
     
@@ -30,6 +51,8 @@ public class CableLayer : MonoBehaviour
     public void NewCable()
     {
         currentCable = Instantiate(CablePrototype);
+        if (CableParent != null)
+            currentCable.transform.SetParent(CableParent);
     }
 
     public void Goto(Vector3 point)
@@ -46,6 +69,7 @@ public class CableLayer : MonoBehaviour
             return;
         Cable cable = currentCable.GetComponent<Cable>();
         cable.MakePhysic();
+        currentCable = null;
     }
 
 }

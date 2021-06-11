@@ -36,5 +36,7 @@ public class Player : MonoBehaviour
         myCableLayer.Goto(transform.position + new Vector3(0, -1, 0));
         if (Input.GetKeyDown(KeyCode.Space))
             myCableLayer.LayCable();
+        if (Input.GetKeyDown(KeyCode.F))
+            myCableLayer.PickupCable();
     }
 }
