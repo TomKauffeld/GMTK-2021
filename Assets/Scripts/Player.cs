@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(CableLayer))]
 public class Player : MonoBehaviour
 {
 
     public float moveSpeed = 5;
     PlayerController controller;
     Camera viewCamera;
+    CableLayer myCableLayer;
 
     void Start()
     {
         controller = GetComponent<PlayerController>();
+        myCableLayer = GetComponent<CableLayer>();
         viewCamera = Camera.main;
     }
 
@@ -29,5 +32,7 @@ public class Player : MonoBehaviour
             Vector3 point = ray.GetPoint(rayDistance);
             controller.LookAt(point);
         }
+        myCableLayer.Goto(transform.position);
+        
     }
 }
