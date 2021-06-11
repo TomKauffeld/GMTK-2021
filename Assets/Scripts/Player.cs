@@ -7,21 +7,46 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
+    public float interval = 0.1f;
     public float moveSpeed = 5;
     PlayerController controller;
     Camera viewCamera;
     CableLayer myCableLayer;
+
+
+    bool lastIsPressed = false;
+    float elapsed = 0;
 
     void Start()
     {
         controller = GetComponent<PlayerController>();
         myCableLayer = GetComponent<CableLayer>();
         viewCamera = Camera.main;
-        myCableLayer.NewCable();
+    }
+
+    private void CheckCableInteraction()
+    {
+        bool isPressed = Input.GetKeyDown(Settings.CableInteraction);
+
+        if (isPressed && !lastIsPressed)
+        {
+            if (myCableLayer.HasCable)
+            {
+                if (!myCableLayer.AttachToConnector())
+                    myCableLayer.LayCable();
+            }
+            else
+            {
+                if (!myCableLayer.PickupCable())
+                    myCableLayer.NewCable();
+            }
+        }
+        lastIsPressed = Input.GetKeyDown(Settings.CableInteraction);
     }
 
     void Update()
     {
+        elapsed += Time.deltaTime;
         Vector3 moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         Vector3 moveVelocity = moveInput.normalized * moveSpeed;
         controller.Move(moveVelocity);
@@ -33,10 +58,18 @@ public class Player : MonoBehaviour
             Vector3 point = ray.GetPoint(rayDistance);
             controller.LookAt(point);
         }
-        myCableLayer.Goto(transform.position + new Vector3(0, -1, 0));
-        if (Input.GetKeyDown(KeyCode.Space))
-            myCableLayer.LayCable();
-        if (Input.GetKeyDown(KeyCode.F))
-            myCableLayer.PickupCable();
+
+
+
+
+        if (elapsed > interval)
+        {
+            myCableLayer.Goto(transform.position + new Vector3(0, -1, 0), true);
+            elapsed -= interval;
+        }
+        else
+            myCableLayer.Goto(transform.position + new Vector3(0, -1, 0), false);
+
+        CheckCableInteraction();
     }
 }

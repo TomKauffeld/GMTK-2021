@@ -5,10 +5,14 @@ using UnityEngine.AI;
 public class Cable : MonoBehaviour
 {
     public const string CABLE_END_TAG = "cable_end";
-
-
     public GameObject Segment;
-    public Vector3 Origin = Vector3.zero;
+
+
+    public CableConnector Begin = null;
+    public CableConnector End = null;
+
+
+    Vector3 Origin => Begin.transform.position;
     LineRenderer lr;
     List<Vector3> points;
 
@@ -32,26 +36,28 @@ public class Cable : MonoBehaviour
         lr.endWidth = 0.25f;
     }
 
-
-    public void Goto(Vector3 point)
+    public void Goto(Vector3 point, bool calculate)
     {
-        NavMeshPath path = new NavMeshPath();
         Target = point;
-        NavMesh.CalculatePath(LastPoint, Target, NavMesh.AllAreas, path);
-        if (path.corners.Length > 2)
+        if (calculate)
         {
-            Target = path.corners[1];
-            for (int i = 2; i < path.corners.Length; ++i)
-                points.Add(path.corners[i]);
-        }
-        else if (points.Count > 1)
-        {
-            Vector3 start = points.Count > 2 ? points[points.Count - 2] : Origin;
-            NavMesh.CalculatePath(start, Target, NavMesh.AllAreas, path);
-            if (path.corners.Length == 2)
+            NavMeshPath path = new NavMeshPath();
+            NavMesh.CalculatePath(LastPoint, Target, NavMesh.AllAreas, path);
+            if (path.corners.Length > 2)
             {
-                points.RemoveAt(points.Count - 1);
-                Goto(point);
+                Target = path.corners[1];
+                for (int i = 2; i < path.corners.Length; ++i)
+                    points.Add(path.corners[i]);
+            }
+            else if (points.Count > 1)
+            {
+                Vector3 start = points.Count > 2 ? points[points.Count - 2] : Origin;
+                NavMesh.CalculatePath(start, Target, NavMesh.AllAreas, path);
+                if (path.corners.Length == 2)
+                {
+                    points.RemoveAt(points.Count - 1);
+                    Goto(point, calculate);
+                }
             }
         }
         MakeImaginary();
@@ -97,8 +103,9 @@ public class Cable : MonoBehaviour
         AddSegmenent(Origin, points[0]);
         for (int i = 0; i < points.Count - 1; i++)
             AddSegmenent(points[i], points[i + 1]);
-        segments[segments.Count - 1].layer = 10;
-        segments[segments.Count - 1].tag = CABLE_END_TAG;
+
+        if (End == null)
+            segments[segments.Count - 1].tag = CABLE_END_TAG;
 
         lr.positionCount = 0;
     }

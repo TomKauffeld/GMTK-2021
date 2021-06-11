@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - cable_end
+  - cable_connector
   layers:
   - Default
   - TransparentFX

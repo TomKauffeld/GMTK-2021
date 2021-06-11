@@ -10,6 +10,9 @@ public class CableLayer : MonoBehaviour
     public Transform CableParent = null;
     public float Range = 10;
 
+
+    public bool HasCable => currentCable != null;
+
     GameObject currentCable;
 
 
@@ -18,25 +21,28 @@ public class CableLayer : MonoBehaviour
         currentCable = null;
     }
 
-    
-    public bool PickupCable()
+    private GameObject FindClosest(string tag)
     {
-
-        GameObject[] objects = GameObject.FindGameObjectsWithTag(Cable.CABLE_END_TAG);
-        GameObject cable = null;
+        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag(tag);
+        GameObject closestObject = null;
         float distance = Mathf.Infinity;
         float rangeMax = Range * Range;
-        foreach(GameObject gameObject in objects)
+        foreach (GameObject gameObject in gameObjects)
         {
-
-            Vector3 position = gameObject.transform.position;
-            float dst = (transform.position - position).sqrMagnitude;
+            float dst = (transform.position - gameObject.transform.position).sqrMagnitude;
             if (dst < rangeMax && dst < distance)
             {
                 distance = dst;
-                cable = gameObject;
+                closestObject = gameObject;
             }
         }
+        return closestObject;
+    }
+
+    
+    public bool PickupCable()
+    {
+        GameObject cable = FindClosest(Cable.CABLE_END_TAG);
         if (cable == null)
             return false;
         Cable c = cable.GetComponentInParent<Cable>();
@@ -48,19 +54,43 @@ public class CableLayer : MonoBehaviour
     }
     
 
-    public void NewCable()
+    public bool NewCable()
     {
+        GameObject connectorObject = FindClosest(CableConnector.TAG_CABLE_CONNECTOR);
+        if (connectorObject == null)
+            return false;
+        CableConnector connector = connectorObject.GetComponent<CableConnector>();
+        if (connector == null)
+            return false;
+        if (connector.AttachedCable != null)
+            return false;
         currentCable = Instantiate(CablePrototype);
         if (CableParent != null)
             currentCable.transform.SetParent(CableParent);
+        Cable cable = currentCable.GetComponent<Cable>();
+        cable.Begin = connector;
+        connector.AttachedCable = cable;
+        return true;
     }
 
-    public void Goto(Vector3 point)
+    public bool AttachToConnector()
     {
+        GameObject connectorObject = FindClosest(CableConnector.TAG_CABLE_CONNECTOR);
+        if (connectorObject == null)
+            return false;
+        CableConnector connector = connectorObject.GetComponent<CableConnector>();
+        if (connector == null)
+            return false;
+        if (connector.AttachedCable != null)
+            return false;
         if (currentCable == null)
-            return;
+            return false;
         Cable cable = currentCable.GetComponent<Cable>();
-        cable.Goto(point);
+        cable.Goto(connector.transform.position, true);
+        cable.End = connector;
+        connector.AttachedCable = cable;
+        LayCable();
+        return true;
     }
 
     public void LayCable()
@@ -70,6 +100,14 @@ public class CableLayer : MonoBehaviour
         Cable cable = currentCable.GetComponent<Cable>();
         cable.MakePhysic();
         currentCable = null;
+    }
+
+    public void Goto(Vector3 point, bool calculate)
+    {
+        if (currentCable == null)
+            return;
+        Cable cable = currentCable.GetComponent<Cable>();
+        cable.Goto(point, calculate);
     }
 
 }
