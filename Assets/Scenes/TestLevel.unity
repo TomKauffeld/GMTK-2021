@@ -1065,7 +1065,7 @@ GameObject:
   m_Component:
   - component: {fileID: 997402072}
   m_Layer: 0
-  m_Name: House 1
+  m_Name: House 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2115,7 +2115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1989707887}
   m_Layer: 0
-  m_Name: House 1
+  m_Name: House 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2233,7 +2233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2029570177}
   m_Layer: 0
-  m_Name: House 1 (1)
+  m_Name: House 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
