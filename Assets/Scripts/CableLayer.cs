@@ -10,6 +10,7 @@ public class CableLayer : MonoBehaviour
     public GameObject CablePrototype;
     public Transform CableParent = null;
     public float Range = 10;
+    public float PointRange = 1;
 
 
     public bool HasCable => currentCable != null;
@@ -28,6 +29,7 @@ public class CableLayer : MonoBehaviour
         Tuple<Cable, bool> closest = null;
         float distance = Mathf.Infinity;
         float rangeMax = Range * Range;
+        float pointRangeMax = PointRange * PointRange;
         foreach (GameObject gameObject in gameObjects)
         {
             Cable cable = gameObject.GetComponentInParent<Cable>();
@@ -38,7 +40,7 @@ public class CableLayer : MonoBehaviour
             if (dstBegin < rangeMax)
             {
                 float dst = (point - cable.Begin.transform.position).sqrMagnitude;
-                if (dst < distance)
+                if (dst < distance && dst < pointRangeMax)
                 {
                     distance = dst;
                     closest = new Tuple<Cable, bool>(cable, true);
@@ -47,7 +49,7 @@ public class CableLayer : MonoBehaviour
             else if (dstEnd < rangeMax)
             {
                 float dst = (point - cable.End.transform.position).sqrMagnitude;
-                if (dst < distance)
+                if (dst < distance && dst < pointRangeMax)
                 {
                     distance = dst;
                     closest = new Tuple<Cable, bool>(cable, false);
@@ -64,13 +66,14 @@ public class CableLayer : MonoBehaviour
         GameObject closestObject = null;
         float distance = Mathf.Infinity;
         float rangeMax = Range * Range;
+        float pointRangeMax = PointRange * PointRange;
         foreach (GameObject gameObject in gameObjects)
         {
             float dst = (transform.position - gameObject.transform.position).sqrMagnitude;
             if (dst < rangeMax)
             {
                 dst = (point - gameObject.transform.position).sqrMagnitude;
-                if (dst < distance)
+                if (dst < distance && dst < pointRangeMax)
                 {
                     distance = dst;
                     closestObject = gameObject;
