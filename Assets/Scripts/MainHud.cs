@@ -9,7 +9,6 @@ public class MainHud : MonoBehaviour
     public Text LayoutText;
     public Text EndedText;
     public Text DebugText;
-    public AInputManager inputManager;
     public CheckEnd checkEnd;
 
     float lastDistance = 0;
@@ -38,7 +37,7 @@ public class MainHud : MonoBehaviour
         float maxDistance = Mathf.Round(cableLayer.MaxRange * 10) / 10;
         if (distance != lastDistance || maxDistance != lastMaxDistance)
             DistanceText.text = string.Format(distanceFormat, distance, maxDistance);
-        LayoutText.text = string.Format(layoutFormat, inputManager.Layout.ToString());
+        LayoutText.text = string.Format(layoutFormat, InputManager.Layout.ToString());
         EndedText.text = string.Format(endedFormat, checkEnd.Ended ? "Yes" : "No");
         DebugText.text = string.Format(debugFormat, checkEnd.index);
 
