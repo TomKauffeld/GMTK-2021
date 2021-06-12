@@ -32,7 +32,12 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 rotation = myRigidbody.rotation.eulerAngles + this.rotation * Time.fixedDeltaTime;
         myRigidbody.MoveRotation(Quaternion.Euler(rotation));
-        Vector3 pos = myRigidbody.position + transform.rotation * velocity * Time.fixedDeltaTime;
-        myRigidbody.MovePosition(pos);
+        if (velocity.sqrMagnitude > 0.1f)
+        {
+            Vector3 pos = myRigidbody.position + transform.rotation * velocity * Time.fixedDeltaTime;
+            myRigidbody.MovePosition(pos);
+        }
+        else
+            myRigidbody.velocity = Vector3.zero;
     }
 }
