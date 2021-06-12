@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +22,43 @@ public class CableLayer : MonoBehaviour
         currentCable = null;
     }
 
-    private GameObject FindClosest(string tag)
+    private Tuple<Cable, bool, float> FindClosestAttachedCable(Vector3 point)
+    {
+        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag(Cable.CABLE_PICKUP_TAG);
+        Tuple<Cable, bool> closest = null;
+        float distance = Mathf.Infinity;
+        float rangeMax = Range * Range;
+        foreach (GameObject gameObject in gameObjects)
+        {
+            Cable cable = gameObject.GetComponentInParent<Cable>();
+            if (cable == null)
+                continue;
+            float dstBegin = (transform.position - cable.Begin.transform.position).sqrMagnitude;
+            float dstEnd = (transform.position - cable.End.transform.position).sqrMagnitude;
+            if (dstBegin < rangeMax)
+            {
+                float dst = (point - cable.Begin.transform.position).sqrMagnitude;
+                if (dst < distance)
+                {
+                    distance = dst;
+                    closest = new Tuple<Cable, bool>(cable, true);
+                }
+            }
+            else if (dstEnd < rangeMax)
+            {
+                float dst = (point - cable.End.transform.position).sqrMagnitude;
+                if (dst < distance)
+                {
+                    distance = dst;
+                    closest = new Tuple<Cable, bool>(cable, false);
+                }
+            }
+        }
+        
+        return closest == null ? null : new Tuple<Cable, bool, float>(closest.Item1, closest.Item2, distance);
+    }
+
+    private Tuple<GameObject, float> FindClosest(string tag, Vector3 point)
     {
         GameObject[] gameObjects = GameObject.FindGameObjectsWithTag(tag);
         GameObject closestObject = null;
@@ -30,35 +67,54 @@ public class CableLayer : MonoBehaviour
         foreach (GameObject gameObject in gameObjects)
         {
             float dst = (transform.position - gameObject.transform.position).sqrMagnitude;
-            if (dst < rangeMax && dst < distance)
+            if (dst < rangeMax)
             {
-                distance = dst;
-                closestObject = gameObject;
+                dst = (point - gameObject.transform.position).sqrMagnitude;
+                if (dst < distance)
+                {
+                    distance = dst;
+                    closestObject = gameObject;
+                }
             }
         }
-        return closestObject;
+        return closestObject == null ? null : new Tuple<GameObject, float>(closestObject, distance);
     }
 
     
-    public bool PickupCable()
+    public bool PickupCable(Vector3 point)
     {
-        GameObject cable = FindClosest(Cable.CABLE_END_TAG);
-        if (cable == null)
-            return false;
-        Cable c = cable.GetComponentInParent<Cable>();
-        if (c == null)
-            return false;
-        currentCable = c.gameObject;
-        c.MakeImaginary();
-        return true;
+        Tuple<GameObject, float> closestCable = FindClosest(Cable.CABLE_END_TAG, point);
+        Tuple<Cable, bool, float> closestConector = FindClosestAttachedCable(point);
+        if (closestConector != null && (closestCable == null || closestCable.Item2 > closestConector.Item3))
+        {
+            Cable c = closestConector.Item1;
+            if (closestConector.Item2)
+                c.DetachBegin();
+            else
+                c.DetachEnd();
+            currentCable = c.gameObject;
+            c.MakeImaginary();
+            return true;
+        }
+        else if (closestCable != null && (closestConector == null || closestConector.Item3 >= closestCable.Item2))
+        {
+            Cable c = closestCable.Item1.GetComponentInParent<Cable>();
+            if (c == null)
+                return false;
+            currentCable = c.gameObject;
+            c.MakeImaginary();
+            return true;
+        }
+        return false;
     }
     
 
-    public bool NewCable()
+    public bool NewCable(Vector3 point)
     {
-        GameObject connectorObject = FindClosest(CableConnector.TAG_CABLE_CONNECTOR);
-        if (connectorObject == null)
+        Tuple<GameObject, float> closest = FindClosest(CableConnector.TAG_CABLE_CONNECTOR, point);
+        if (closest == null)
             return false;
+        GameObject connectorObject = closest.Item1;
         CableConnector connector = connectorObject.GetComponent<CableConnector>();
         if (connector == null)
             return false;
@@ -73,11 +129,12 @@ public class CableLayer : MonoBehaviour
         return true;
     }
 
-    public bool AttachToConnector()
+    public bool AttachToConnector(Vector3 point)
     {
-        GameObject connectorObject = FindClosest(CableConnector.TAG_CABLE_CONNECTOR);
-        if (connectorObject == null)
+        Tuple<GameObject, float> closest = FindClosest(CableConnector.TAG_CABLE_CONNECTOR, point);
+        if (closest == null)
             return false;
+        GameObject connectorObject = closest.Item1;
         CableConnector connector = connectorObject.GetComponent<CableConnector>();
         if (connector == null)
             return false;

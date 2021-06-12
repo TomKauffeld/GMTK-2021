@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
         viewCamera = Camera.main;
     }
 
-    private void CheckCableInteraction()
+    private void CheckCableInteraction(Vector3 point)
     {
         bool isPressed = Input.GetKeyDown(Settings.CableInteraction);
 
@@ -32,13 +32,13 @@ public class Player : MonoBehaviour
         {
             if (myCableLayer.HasCable)
             {
-                if (!myCableLayer.AttachToConnector())
+                if (!myCableLayer.AttachToConnector(point))
                     myCableLayer.LayCable();
             }
             else
             {
-                if (!myCableLayer.PickupCable())
-                    myCableLayer.NewCable();
+                if (!myCableLayer.PickupCable(point))
+                    myCableLayer.NewCable(point);
             }
         }
         lastIsPressed = Input.GetKeyDown(Settings.CableInteraction);
@@ -52,24 +52,27 @@ public class Player : MonoBehaviour
         controller.Move(moveVelocity);
 
         Ray ray = viewCamera.ScreenPointToRay(Input.mousePosition);
-        Plane plane = new Plane(Vector3.up, Vector3.zero);
-        if (plane.Raycast(ray, out float rayDistance))
+        Plane plane = new Plane(Vector3.up, new Vector3(0, transform.position.y - 1, 0));
+        plane.Raycast(ray, out float rayDistance);
+        Vector3 point = ray.GetPoint(rayDistance);
+        controller.LookAt(point);
+
+
+        Vector3 target = point;
+        Vector3 diff = point - (transform.position + new Vector3(0, -1, 0));
+        if (diff.sqrMagnitude >= myCableLayer.Range * myCableLayer.Range)
         {
-            Vector3 point = ray.GetPoint(rayDistance);
-            controller.LookAt(point);
+            target = transform.position + new Vector3(0, -1, 0) + diff.normalized * myCableLayer.Range;
         }
-
-
-
 
         if (elapsed > interval)
         {
-            myCableLayer.Goto(transform.position + new Vector3(0, -1, 0), true);
+            myCableLayer.Goto(target, true);
             elapsed -= interval;
         }
         else
-            myCableLayer.Goto(transform.position + new Vector3(0, -1, 0), false);
+            myCableLayer.Goto(target, false);
 
-        CheckCableInteraction();
+        CheckCableInteraction(point);
     }
 }

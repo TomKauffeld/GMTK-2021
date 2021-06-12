@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class Cable : MonoBehaviour
 {
     public const string CABLE_END_TAG = "cable_end";
+    public const string CABLE_PICKUP_TAG = "cable_pickup";
     public GameObject Segment;
 
 
@@ -106,7 +107,40 @@ public class Cable : MonoBehaviour
 
         if (End == null)
             segments[segments.Count - 1].tag = CABLE_END_TAG;
+        else
+        {
+            segments[0].tag = CABLE_PICKUP_TAG;
+            segments[segments.Count - 1].tag = CABLE_PICKUP_TAG;
+        }
 
         lr.positionCount = 0;
+    }
+
+    private void InverseCable()
+    {
+        RemoveSegments();
+        CableConnector tmp = Begin;
+        Begin = End;
+        End = tmp;
+        List<Vector3> points = new List<Vector3>();
+        for (int i = this.points.Count - 1; i >= 0; --i)
+            points.Add(this.points[i]);
+        this.points = points;
+    }
+
+
+    public void DetachBegin()
+    {
+        InverseCable();
+        DetachEnd();
+    }
+
+    public void DetachEnd()
+    {
+        RemoveSegments();
+        if (End == null)
+            return;
+        End.AttachedCable = null;
+        End = null;
     }
 }
