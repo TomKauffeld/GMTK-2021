@@ -41,6 +41,8 @@ public class Cable : MonoBehaviour
 
     List<GameObject> segments;
 
+    EventsSystem eventsSystem;
+
     void Start()
     {
         points = new List<Vector3>
@@ -49,6 +51,8 @@ public class Cable : MonoBehaviour
         };
         segments = new List<GameObject>();
         lr = GetComponent<LineRenderer>();
+        eventsSystem = FindObjectOfType<EventsSystem>();
+        eventsSystem.OnCableCreated.Invoke();
     }
 
     public void Goto(Vector3 point, bool calculate, bool direct)
@@ -173,6 +177,7 @@ public class Cable : MonoBehaviour
 
     private void OnDestroy()
     {
+        eventsSystem.OnCableDeleted.Invoke();
         if (End != null)
             End.AttachedCable = null;
         Begin.AttachedCable = null;

@@ -7,5 +7,6 @@
     TURN_LEFT,
     TURN_RIGHT,
     PRIMARY,
-    SECONDARY
+    SECONDARY,
+    PAUSE
 }

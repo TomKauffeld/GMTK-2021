@@ -8,6 +8,8 @@ public class CableConnector : MonoBehaviour
     public Material ConnectedMaterial;
     public Material DisconnectedMaterial;
 
+    EventsSystem eventsSystem;
+
 
     private static int NEXT_ID = 1;
 
@@ -32,6 +34,7 @@ public class CableConnector : MonoBehaviour
     {
         if (Born.gameObject != null)
             Born.GetComponent<Renderer>().material = ConnectedMaterial;
+        eventsSystem.OnCableConnected.Invoke();
         attachedCable = cable;
     }
 
@@ -42,6 +45,7 @@ public class CableConnector : MonoBehaviour
         Cable cable = attachedCable;
         if (cable != null)
         {
+            eventsSystem.OnCableDisconnected.Invoke();
             attachedCable = null;
             if (cable.Begin == this)
                 cable.DetachBegin();
@@ -94,6 +98,7 @@ public class CableConnector : MonoBehaviour
     void Start()
     {
         Born.GetComponent<Renderer>().material = AttachedCable != null ? ConnectedMaterial : DisconnectedMaterial;
+        eventsSystem = FindObjectOfType<EventsSystem>();
     }
 
 

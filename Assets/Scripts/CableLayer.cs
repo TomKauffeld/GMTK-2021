@@ -19,10 +19,12 @@ public class CableLayer : MonoBehaviour
 
     GameObject currentCable;
 
+    EventsSystem eventsSystem;
 
     void Start()
     {
         currentCable = null;
+        eventsSystem = FindObjectOfType<EventsSystem>();
     }
 
     public void DeleteCable()
@@ -87,6 +89,7 @@ public class CableLayer : MonoBehaviour
                 cable.Begin = connector;
                 connector.AttachedCable = cable;
             }
+            eventsSystem.OnCablePickedUp.Invoke();
             return true;
         }
         else if (closestCable != null && (closestConnector == null || closestConnector.Item2 >= closestCable.Item2))
@@ -96,6 +99,7 @@ public class CableLayer : MonoBehaviour
                 return false;
             currentCable = c.gameObject;
             c.MakeImaginary();
+            eventsSystem.OnCablePickedUp.Invoke();
             return true;
         }
         return false;
@@ -134,6 +138,7 @@ public class CableLayer : MonoBehaviour
         Cable cable = currentCable.GetComponent<Cable>();
         if (cable.Length <= cable.MaxLength)
         {
+            eventsSystem.OnCableDropped.Invoke();
             cable.MakePhysic();
             currentCable = null;
             return true;

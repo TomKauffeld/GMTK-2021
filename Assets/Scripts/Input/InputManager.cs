@@ -16,7 +16,8 @@ public class InputManager : MonoBehaviour
                 { Actions.TURN_LEFT, KeyCode.Q },
                 { Actions.TURN_RIGHT, KeyCode.E },
                 { Actions.PRIMARY, KeyCode.Space },
-                { Actions.SECONDARY, KeyCode.Delete }
+                { Actions.SECONDARY, KeyCode.Delete },
+                { Actions.PAUSE, KeyCode.P }
             }
         },
         {
@@ -29,7 +30,8 @@ public class InputManager : MonoBehaviour
                 { Actions.TURN_LEFT, KeyCode.A },
                 { Actions.TURN_RIGHT, KeyCode.E },
                 { Actions.PRIMARY, KeyCode.Space },
-                { Actions.SECONDARY, KeyCode.Delete }
+                { Actions.SECONDARY, KeyCode.Delete },
+                { Actions.PAUSE, KeyCode.P }
             }
         }
     };

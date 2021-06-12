@@ -34,7 +34,10 @@ public class CheckEnd : MonoBehaviour
                 allOk = true;
                 Index = 0;
                 if (Ended)
+                {
+                    FindObjectOfType<EventsSystem>().OnVictory.Invoke();
                     SceneManager.LoadSceneAsync(NextScene, LoadSceneMode.Single);
+                }
             }
             if (Index < connectors.Length)
             {
