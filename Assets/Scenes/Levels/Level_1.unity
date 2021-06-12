@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657755, g: 0.4964127, b: 0.57481825, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657642, g: 0.49641156, b: 0.5748181, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -263,11 +263,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
---- !u!20 &269727051 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 6436152104769404158, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
-  m_PrefabInstance: {fileID: 6436152104627593277}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &347283448
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,7 +576,6 @@ Terrain:
   m_DrawHeightmap: 1
   m_DrawInstanced: 0
   m_DrawTreesAndFoliage: 1
-  m_StaticShadowCaster: 0
   m_ReflectionProbeUsage: 1
   m_MaterialTemplate: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
   m_BakeLightProbesForTrees: 1
@@ -826,30 +820,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6436152104279013128, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 269727051}
-    - target: {fileID: 6436152104279013128, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6436152104279013128, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
-      propertyPath: m_PixelPerfect
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6436152104279013131, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
-      propertyPath: checkEnd
-      value: 
-      objectReference: {fileID: 12863560}
-    - target: {fileID: 6436152106021817252, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
-      propertyPath: Direct
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6436152106021817252, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
-      propertyPath: MaxRange
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 6436152106021817252, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
       propertyPath: CableParent
       value: 
