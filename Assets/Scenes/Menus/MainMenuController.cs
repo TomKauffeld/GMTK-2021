@@ -30,7 +30,7 @@ public class MainMenuController : MonoBehaviour
         Operation = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);
     }
 
-    public void OnClickPlay() => LoadNewScene("Scenes/TestLevel");
+    public void OnClickPlay() => LoadNewScene("Assets/Scenes/Levels/Level_1.unity");
 
     public void OnClickContinue() => LoadNewScene(Save.LastLevel);
 

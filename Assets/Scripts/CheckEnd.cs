@@ -1,22 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class CheckEnd : MonoBehaviour
 {
     public float TargetCheckTime = 0.5f;
     public string NextScene;
+
+    private bool lastEnded = false;
     public bool Ended { private set; get; } = false;
 
 
     float targetElapsedTime = 0.1f;
     float elapsed = 0;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        Save.LastLevel = gameObject.scene.name;
-    }
 
     public int Index { private set; get; } = 0;
     private bool allOk = true;
@@ -33,8 +28,9 @@ public class CheckEnd : MonoBehaviour
                 Ended = allOk;
                 allOk = true;
                 Index = 0;
-                if (Ended)
-                    SceneManager.LoadSceneAsync(NextScene, LoadSceneMode.Single);
+                if (Ended && !lastEnded)
+                    FindObjectOfType<EventsSystem>().OnVictory.Invoke();
+                lastEnded = Ended;
             }
             if (Index < connectors.Length)
             {
