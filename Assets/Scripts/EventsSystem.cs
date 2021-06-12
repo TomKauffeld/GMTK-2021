@@ -10,6 +10,7 @@ public class EventsSystem : MonoBehaviour
     public UnityEvent OnCableConnected;
     public UnityEvent OnCableDropped;
     public UnityEvent OnCablePickedUp;
+    public UnityEvent OnCableTooLong;
     public UnityEvent OnVictory;
     public UnityEvent<string, IEnable> OnEnterZone;
     public UnityEvent<string, IEnable> OnExitZone;
