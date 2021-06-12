@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class CheckEnd : MonoBehaviour
 {
     public float TargetCheckTime = 0.5f;
     public string NextScene;
+
+    private bool lastEnded = false;
     public bool Ended { private set; get; } = false;
 
 
@@ -33,11 +34,9 @@ public class CheckEnd : MonoBehaviour
                 Ended = allOk;
                 allOk = true;
                 Index = 0;
-                if (Ended)
-                {
+                if (Ended && !lastEnded)
                     FindObjectOfType<EventsSystem>().OnVictory.Invoke();
-                    SceneManager.LoadSceneAsync(NextScene, LoadSceneMode.Single);
-                }
+                lastEnded = Ended;
             }
             if (Index < connectors.Length)
             {

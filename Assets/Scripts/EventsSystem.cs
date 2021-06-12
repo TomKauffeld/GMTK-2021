@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,4 +11,7 @@ public class EventsSystem : MonoBehaviour
     public UnityEvent OnCableDropped;
     public UnityEvent OnCablePickedUp;
     public UnityEvent OnVictory;
+    public UnityEvent<string, IEnable> OnEnterZone;
+    public UnityEvent<string, IEnable> OnExitZone;
+    public UnityEvent<string, float, float, float> OnNewMessage;
 }

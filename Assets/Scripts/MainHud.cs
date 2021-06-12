@@ -35,6 +35,7 @@ public class MainHud : MonoBehaviour
         layoutFormat = LayoutText.text;
         levelFormat = LevelText.text;
         Menu.SetActive(false);
+        FindObjectOfType<EventsSystem>().OnNewMessage.AddListener(AddMessage);
     }
 
     // Update is called once per frame
@@ -92,5 +93,12 @@ public class MainHud : MonoBehaviour
     public void AddMessage(string message, float fadein, float timeout, float fadeout)
     {
         messages.AddLast(new Tuple<string, float, float, float>(message, fadein, timeout, fadeout));
+    }
+
+    private void OnDestroy()
+    {
+        EventsSystem eventsSystem = FindObjectOfType<EventsSystem>();
+        if (eventsSystem != null)
+            eventsSystem.OnNewMessage.RemoveListener(AddMessage);
     }
 }
