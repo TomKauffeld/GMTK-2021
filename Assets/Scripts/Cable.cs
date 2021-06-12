@@ -37,27 +37,35 @@ public class Cable : MonoBehaviour
         lr.endWidth = 0.25f;
     }
 
-    public void Goto(Vector3 point, bool calculate)
+    public void Goto(Vector3 point, bool calculate, bool direct)
     {
         Target = point;
         if (calculate)
         {
+            if (direct)
+            {
+                points.Clear();
+                points.Add(point);
+            }
+            Vector3 lastPoint = new Vector3(LastPoint.x, 0.1f, LastPoint.z);
+            Vector3 target = new Vector3(Target.x, 0.1f, Target.z);
             NavMeshPath path = new NavMeshPath();
-            NavMesh.CalculatePath(LastPoint, Target, NavMesh.AllAreas, path);
+            NavMesh.CalculatePath(lastPoint, target, NavMesh.AllAreas, path);
             if (path.corners.Length > 2)
             {
                 Target = path.corners[1];
                 for (int i = 2; i < path.corners.Length; ++i)
                     points.Add(path.corners[i]);
             }
-            else if (points.Count > 1)
+            else if (!direct && points.Count > 1)
             {
                 Vector3 start = points.Count > 2 ? points[points.Count - 2] : Origin;
-                NavMesh.CalculatePath(start, Target, NavMesh.AllAreas, path);
+                start = new Vector3(start.x, 0.1f, start.z);
+                NavMesh.CalculatePath(start, target, NavMesh.AllAreas, path);
                 if (path.corners.Length == 2)
                 {
                     points.RemoveAt(points.Count - 1);
-                    Goto(point, calculate);
+                    Goto(point, calculate, direct);
                 }
             }
         }

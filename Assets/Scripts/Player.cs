@@ -37,8 +37,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                if (!myCableLayer.PickupCable(point))
-                    myCableLayer.NewCable(point);
+                myCableLayer.PickupCable(point);
             }
         }
         lastIsPressed = Input.GetKeyDown(Settings.CableInteraction);

@@ -41,7 +41,45 @@ public class CableConnector : MonoBehaviour
         }
     }
 
+    private void AddConnectorToList(List<CableConnector> connections, CableConnector connector)
+    {
+        if (connections.Contains(connector))
+            return;
+        connections.Add(connector);
+        connector.PrivateGetConnections(connections);
+    }
 
+    private List<CableConnector> PrivateGetConnections(List<CableConnector> connections = null)
+    {
+        if (connections == null)
+            connections = new List<CableConnector>();
+        if (!connections.Contains(this))
+            connections.Add(this);
+
+        if (attachedCable != null)
+        {
+            if (attachedCable.Begin == this && attachedCable.End != null)
+                AddConnectorToList(connections, attachedCable.End);
+            else if (attachedCable.End == this)
+                AddConnectorToList(connections, attachedCable.Begin);
+        }
+
+        Switch s = GetComponentInParent<Switch>();
+
+        if (s != null)
+        {
+            CableConnector[] others = s.GetComponentsInChildren<CableConnector>();
+            foreach(CableConnector connector in others)
+                AddConnectorToList(connections, connector);
+        }
+
+        return connections;
+    }
+
+    public List<CableConnector> GetConnections()
+    {
+        return PrivateGetConnections();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -49,9 +87,9 @@ public class CableConnector : MonoBehaviour
         
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        
     }
 }
