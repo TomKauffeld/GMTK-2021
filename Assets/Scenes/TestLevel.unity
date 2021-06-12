@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetCheckTime: 0.5
+  NextScene: Assets/Scenes/Menus/MainMenu.unity
 --- !u!1001 &179832607
 PrefabInstance:
   m_ObjectHideFlags: 0

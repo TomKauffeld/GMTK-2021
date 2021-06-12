@@ -1,21 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public enum LayoutEnum
-    {
-        QWERTY,
-        AZERTY
-    }
 
-    public static LayoutEnum Layout = LayoutEnum.QWERTY;
-
-    private static readonly Dictionary<LayoutEnum, Dictionary<Actions, KeyCode>> Keys = new Dictionary<LayoutEnum, Dictionary<Actions, KeyCode>>
+    private static readonly Dictionary<Layout, Dictionary<Actions, KeyCode>> Keys = new Dictionary<Layout, Dictionary<Actions, KeyCode>>
     {
         {
-            LayoutEnum.QWERTY, new Dictionary<Actions, KeyCode>
+            Layout.QWERTY, new Dictionary<Actions, KeyCode>
             {
                 { Actions.MOVE_FORWARD, KeyCode.W },
                 { Actions.MOVE_BACKWARD, KeyCode.S },
@@ -24,12 +16,11 @@ public class InputManager : MonoBehaviour
                 { Actions.TURN_LEFT, KeyCode.Q },
                 { Actions.TURN_RIGHT, KeyCode.E },
                 { Actions.PRIMARY, KeyCode.Space },
-                { Actions.SECONDARY, KeyCode.Delete },
-                { Actions.CHANGE_LAYOUT, KeyCode.Tab },
+                { Actions.SECONDARY, KeyCode.Delete }
             }
         },
         {
-            LayoutEnum.AZERTY, new Dictionary<Actions, KeyCode>
+            Layout.AZERTY, new Dictionary<Actions, KeyCode>
             {
                 { Actions.MOVE_FORWARD, KeyCode.Z },
                 { Actions.MOVE_BACKWARD, KeyCode.S },
@@ -38,8 +29,7 @@ public class InputManager : MonoBehaviour
                 { Actions.TURN_LEFT, KeyCode.A },
                 { Actions.TURN_RIGHT, KeyCode.E },
                 { Actions.PRIMARY, KeyCode.Space },
-                { Actions.SECONDARY, KeyCode.Delete },
-                { Actions.CHANGE_LAYOUT, KeyCode.Tab },
+                { Actions.SECONDARY, KeyCode.Delete }
             }
         }
     };
@@ -80,16 +70,10 @@ public class InputManager : MonoBehaviour
         return ret;
     }
 
-    protected static KeyCode GetKeyCodeForAction(Actions action) => Keys[Layout][action];
+    protected static KeyCode GetKeyCodeForAction(Actions action) => Keys[Settings.Layout][action];
 
     public static bool GetAction(Actions actions) => Input.GetKey(GetKeyCodeForAction(actions));
 
     public static bool GetActionDown(Actions action) => Input.GetKeyDown(GetKeyCodeForAction(action));
-
-
-    public static void SwitchLayout()
-    {
-        Layout = Layout == LayoutEnum.AZERTY ? LayoutEnum.QWERTY : LayoutEnum.AZERTY;
-    }
 
 }

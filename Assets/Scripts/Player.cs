@@ -81,8 +81,5 @@ public class Player : MonoBehaviour
             CheckCableInteraction(point);
         }
 
-        if (InputManager.GetActionDown(Actions.CHANGE_LAYOUT))
-            InputManager.SwitchLayout();
-
     }
 }
