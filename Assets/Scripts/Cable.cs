@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(LineRenderer))]
 public class Cable : MonoBehaviour
 {
     public const string CABLE_END_TAG = "cable_end";
-    public const string CABLE_PICKUP_TAG = "cable_pickup";
     public GameObject Segment;
 
 
@@ -30,11 +30,7 @@ public class Cable : MonoBehaviour
             Vector3.zero
         };
         segments = new List<GameObject>();
-        lr = gameObject.AddComponent<LineRenderer>();
-        lr.material = new Material(Shader.Find("Sprites/Default"));
-        lr.sharedMaterial.SetColor("_Color", Color.yellow);
-        lr.startWidth = 0.25f;
-        lr.endWidth = 0.25f;
+        lr = GetComponent<LineRenderer>();
     }
 
     public void Goto(Vector3 point, bool calculate, bool direct)
@@ -56,6 +52,7 @@ public class Cable : MonoBehaviour
                 Target = path.corners[1];
                 for (int i = 2; i < path.corners.Length; ++i)
                     points.Add(path.corners[i]);
+                Target = new Vector3(Target.x, point.y, Target.z);
             }
             else if (!direct && points.Count > 1)
             {
@@ -85,9 +82,8 @@ public class Cable : MonoBehaviour
         RemoveSegments();
         lr.positionCount = points.Count + 1;
         lr.SetPosition(0, Origin);
-        lr.SetPosition(1, points[0]);
-        for (int i = 0; i < points.Count - 1; i++)
-            lr.SetPosition(i + 2, points[i + 1]);
+        for (int i = 0; i < points.Count; i++)
+            lr.SetPosition(i + 1, points[i]);
     }
 
     private GameObject AddSegmenent(Vector3 start, Vector3 end)
@@ -115,11 +111,6 @@ public class Cable : MonoBehaviour
 
         if (End == null)
             segments[segments.Count - 1].tag = CABLE_END_TAG;
-        else
-        {
-            segments[0].tag = CABLE_PICKUP_TAG;
-            segments[segments.Count - 1].tag = CABLE_PICKUP_TAG;
-        }
 
         lr.positionCount = 0;
     }

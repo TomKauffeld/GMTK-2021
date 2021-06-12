@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class CableLayer : MonoBehaviour
 {
@@ -22,6 +19,15 @@ public class CableLayer : MonoBehaviour
     void Start()
     {
         currentCable = null;
+    }
+
+    public void DeleteCable()
+    {
+        if (currentCable != null)
+        {
+            Destroy(currentCable);
+            currentCable = null;
+        }
     }
 
     private Tuple<GameObject, float> FindClosest(string tag, Vector3 point)
@@ -58,12 +64,15 @@ public class CableLayer : MonoBehaviour
             if (connector.AttachedCable != null)
             {
                 Cable cable = connector.AttachedCable;
-                if (cable.Begin == connector)
-                    cable.DetachBegin();
-                else
-                    cable.DetachEnd();
-                currentCable = cable.gameObject;
-                cable.MakeImaginary();
+                if (cable.End != null)
+                {
+                    if (cable.Begin == connector)
+                        cable.DetachBegin();
+                    else
+                        cable.DetachEnd();
+                    currentCable = cable.gameObject;
+                    cable.MakeImaginary();
+                }
             }
             else
             {

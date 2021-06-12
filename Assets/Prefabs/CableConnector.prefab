@@ -92,6 +92,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2648347731182813609}
   - component: {fileID: 1809368150284511782}
+  - component: {fileID: 1386212067189229414}
+  - component: {fileID: 2777255546414793692}
   m_Layer: 0
   m_Name: CableConnector
   m_TagString: cable_connector
@@ -127,6 +129,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecd4c30c4eed9bc498ac84b281115910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Born: {fileID: 6050470215957220017}
+  ConnectedMaterial: {fileID: 2100000, guid: c67df3964af215a43882aee892403086, type: 2}
+  DisconnectedMaterial: {fileID: 2100000, guid: 86df3c528a88e8a4dbac83df6b8540ac, type: 2}
+--- !u!54 &1386212067189229414
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5307038840064277023}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &2777255546414793692
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5307038840064277023}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 0.3, z: 0.2}
+  m_Center: {x: 0, y: 0, z: -0.1}
 --- !u!1 &6050470215957220017
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerController))]
@@ -9,12 +7,11 @@ public class Player : MonoBehaviour
 
     public float interval = 0.1f;
     public float moveSpeed = 5;
+    public float rotationSpeed = 5;
     PlayerController controller;
     Camera viewCamera;
     CableLayer myCableLayer;
 
-
-    bool lastIsPressed = false;
     float elapsed = 0;
 
     void Start()
@@ -26,9 +23,8 @@ public class Player : MonoBehaviour
 
     private void CheckCableInteraction(Vector3 point)
     {
-        bool isPressed = Input.GetKeyDown(Settings.CableInteraction);
 
-        if (isPressed && !lastIsPressed)
+        if (Input.GetKeyDown(Settings.CableInteraction))
         {
             if (myCableLayer.HasCable)
             {
@@ -40,7 +36,10 @@ public class Player : MonoBehaviour
                 myCableLayer.PickupCable(point);
             }
         }
-        lastIsPressed = Input.GetKeyDown(Settings.CableInteraction);
+        else if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            myCableLayer.DeleteCable();
+        }
     }
 
     void Update()
@@ -50,28 +49,36 @@ public class Player : MonoBehaviour
         Vector3 moveVelocity = moveInput.normalized * moveSpeed;
         controller.Move(moveVelocity);
 
+        Vector3 rotation = Vector3.zero;
+        if (Input.GetKey(KeyCode.Q))
+            rotation.y -= rotationSpeed;
+        else if (Input.GetKey(KeyCode.E))
+            rotation.y += rotationSpeed;
+        controller.Rotate(rotation);
+
+
+
+
+
         Ray ray = viewCamera.ScreenPointToRay(Input.mousePosition);
-        Plane plane = new Plane(Vector3.up, new Vector3(0, transform.position.y - 1, 0));
-        plane.Raycast(ray, out float rayDistance);
-        Vector3 point = ray.GetPoint(rayDistance);
-        controller.LookAt(point);
-
-
-        Vector3 target = point;
-        Vector3 diff = point - (transform.position + new Vector3(0, -1, 0));
-        if (diff.sqrMagnitude >= myCableLayer.Range * myCableLayer.Range)
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            target = transform.position + new Vector3(0, -1, 0) + diff.normalized * myCableLayer.Range;
+            Vector3 point = new Vector3(hit.point.x, 0.1f, hit.point.z);
+            Vector3 target = point;
+            Vector3 diff = point - (transform.position + new Vector3(0, -1, 0));
+            if (diff.sqrMagnitude >= myCableLayer.Range * myCableLayer.Range)
+                target = transform.position + new Vector3(0, -1, 0) + diff.normalized * myCableLayer.Range;
+
+            if (elapsed > interval)
+            {
+                myCableLayer.Goto(target, true);
+                elapsed -= interval;
+            }
+            else
+                myCableLayer.Goto(target, false);
+
+            CheckCableInteraction(point);
         }
 
-        if (elapsed > interval)
-        {
-            myCableLayer.Goto(target, true);
-            elapsed -= interval;
-        }
-        else
-            myCableLayer.Goto(target, false);
-
-        CheckCableInteraction(point);
     }
 }

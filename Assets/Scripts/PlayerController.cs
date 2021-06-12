@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     Vector3 velocity = Vector3.zero;
+    Vector3 rotation = Vector3.zero;
     Rigidbody myRigidbody;
 
     void Start()
@@ -16,6 +17,11 @@ public class PlayerController : MonoBehaviour
         this.velocity = velocity;
     }
 
+    public void Rotate(Vector3 rotation)
+    {
+        this.rotation = rotation;
+    }
+
     public void LookAt(Vector3 point)
     {
         Vector3 correctedPoint = new Vector3(point.x, transform.position.y, point.z);
@@ -24,7 +30,9 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 pos = myRigidbody.position + velocity * Time.fixedDeltaTime;
+        Vector3 rotation = myRigidbody.rotation.eulerAngles + this.rotation * Time.fixedDeltaTime;
+        myRigidbody.MoveRotation(Quaternion.Euler(rotation));
+        Vector3 pos = myRigidbody.position + transform.rotation * velocity * Time.fixedDeltaTime;
         myRigidbody.MovePosition(pos);
     }
 }

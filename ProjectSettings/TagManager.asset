@@ -6,7 +6,6 @@ TagManager:
   tags:
   - cable_end
   - cable_connector
-  - cable_pickup
   layers:
   - Default
   - TransparentFX
@@ -18,8 +17,8 @@ TagManager:
   - 
   - 
   - 
-  - Cable End
-  - Cable Attach
+  - 
+  - 
   - 
   - 
   - 

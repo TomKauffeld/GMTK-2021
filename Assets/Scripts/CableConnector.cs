@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class CableConnector : MonoBehaviour
 {
+    public GameObject Born;
+    public Material ConnectedMaterial;
+    public Material DisconnectedMaterial;
+
+
     private static int NEXT_ID = 1;
 
     public readonly int Id = NEXT_ID++;
@@ -25,11 +30,13 @@ public class CableConnector : MonoBehaviour
 
     private void AttachCable(Cable cable)
     {
+        Born.GetComponent<Renderer>().material = ConnectedMaterial;
         attachedCable = cable;
     }
 
     private void DetachCable()
     {
+        Born.GetComponent<Renderer>().material = DisconnectedMaterial;
         Cable cable = attachedCable;
         if (cable != null)
         {
@@ -84,7 +91,7 @@ public class CableConnector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Born.GetComponent<Renderer>().material = AttachedCable != null ? ConnectedMaterial : DisconnectedMaterial;
     }
 
 
