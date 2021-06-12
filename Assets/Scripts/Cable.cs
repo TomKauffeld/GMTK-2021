@@ -24,6 +24,8 @@ public class Cable : MonoBehaviour
     Vector3 LastPoint { get => points.Count > 2 ? points[points.Count - 2] : Origin; }
     Vector3 Target { get => points[points.Count - 1]; set => points[points.Count - 1] = value; }
 
+    private bool lastTooLong = false;
+
     public float Length { private set; get; }
 
     private float GetLength()
@@ -97,7 +99,11 @@ public class Cable : MonoBehaviour
         }
         else
             Length = GetLength();
-        lr.material = Length > MaxLength ? ImaginaryNok : ImaginaryOk;
+        bool tooLong = Length > MaxLength;
+        lr.material = tooLong ? ImaginaryNok : ImaginaryOk;
+        if (tooLong && !lastTooLong)
+            eventsSystem.OnCableTooLong.Invoke();
+        lastTooLong = tooLong;
         MakeImaginary();
     }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Level_2 : ALevel
+public class Level_4 : ALevel
 {
 
     protected override IEnumerator Startup()
