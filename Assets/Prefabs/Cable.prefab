@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 741878a547ba34045a725b9341d29842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxLength: 100
+  ImaginaryOk: {fileID: 2100000, guid: 9f717b6846bf8474294044d49426a5b8, type: 2}
+  ImaginaryNok: {fileID: 2100000, guid: 7d255e1e2e78d1d458c739c12c06d431, type: 2}
   Segment: {fileID: 5151757674678945173, guid: e53a904ca06df72498c825773cf4073f, type: 3}
   Begin: {fileID: 0}
   End: {fileID: 0}

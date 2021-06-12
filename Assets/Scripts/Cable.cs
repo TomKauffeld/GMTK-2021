@@ -5,6 +5,10 @@ using UnityEngine.AI;
 [RequireComponent(typeof(LineRenderer))]
 public class Cable : MonoBehaviour
 {
+    public float MaxLength = 100;
+    public Material ImaginaryOk;
+    public Material ImaginaryNok;
+
     public const string CABLE_END_TAG = "cable_end";
     public GameObject Segment;
 
@@ -19,6 +23,20 @@ public class Cable : MonoBehaviour
 
     Vector3 LastPoint { get => points.Count > 2 ? points[points.Count - 2] : Origin; }
     Vector3 Target { get => points[points.Count - 1]; set => points[points.Count - 1] = value; }
+
+    public float Length { private set; get; }
+
+    private float GetLength()
+    {
+        float length = 0;
+        Vector3 lastPoint = Origin;
+        foreach(Vector3 point in points)
+        {
+            length += (lastPoint - point).magnitude;
+            lastPoint = point;
+        }
+        return length;
+    }
 
 
     List<GameObject> segments;
@@ -63,9 +81,14 @@ public class Cable : MonoBehaviour
                 {
                     points.RemoveAt(points.Count - 1);
                     Goto(point, calculate, direct);
+                    return;
                 }
             }
+            Length = GetLength();
         }
+        else
+            Length = GetLength();
+        lr.material = Length > MaxLength ? ImaginaryNok : ImaginaryOk;
         MakeImaginary();
     }
 
@@ -141,5 +164,12 @@ public class Cable : MonoBehaviour
             return;
         End.AttachedCable = null;
         End = null;
+    }
+
+    private void OnDestroy()
+    {
+        if (End != null)
+            End.AttachedCable = null;
+        Begin.AttachedCable = null;
     }
 }

@@ -4,11 +4,15 @@ using UnityEngine;
 public class CableLayer : MonoBehaviour
 {
 
+    public float MaxRange = 10;
+
     public GameObject CablePrototype;
     public Transform CableParent = null;
     public float Range = 10;
     public float PointRange = 1;
     public bool Direct = false;
+
+    public float CurrentLength => currentCable != null ? currentCable.GetComponent<Cable>().Length : 0;
 
 
     public bool HasCable => currentCable != null;
@@ -53,7 +57,6 @@ public class CableLayer : MonoBehaviour
         return closestObject == null ? null : new Tuple<GameObject, float>(closestObject, distance);
     }
 
-    
     public bool PickupCable(Vector3 point)
     {
         Tuple<GameObject, float> closestCable = FindClosest(Cable.CABLE_END_TAG, point);
@@ -80,6 +83,7 @@ public class CableLayer : MonoBehaviour
                 if (CableParent != null)
                     currentCable.transform.SetParent(CableParent);
                 Cable cable = currentCable.GetComponent<Cable>();
+                cable.MaxLength = MaxRange;
                 cable.Begin = connector;
                 connector.AttachedCable = cable;
             }
@@ -112,19 +116,29 @@ public class CableLayer : MonoBehaviour
             return false;
         Cable cable = currentCable.GetComponent<Cable>();
         cable.Goto(connector.transform.position, true, Direct);
-        cable.End = connector;
-        connector.AttachedCable = cable;
-        LayCable();
-        return true;
+        if (cable.Length <= cable.MaxLength)
+        {
+            cable.End = connector;
+            connector.AttachedCable = cable;
+            LayCable();
+            return true;
+        }
+        else
+            return false;
     }
 
-    public void LayCable()
+    public bool LayCable()
     {
         if (currentCable == null)
-            return;
+            return false;
         Cable cable = currentCable.GetComponent<Cable>();
-        cable.MakePhysic();
-        currentCable = null;
+        if (cable.Length <= cable.MaxLength)
+        {
+            cable.MakePhysic();
+            currentCable = null;
+            return true;
+        }
+        return false;
     }
 
     public void Goto(Vector3 point, bool calculate)

@@ -30,13 +30,15 @@ public class CableConnector : MonoBehaviour
 
     private void AttachCable(Cable cable)
     {
-        Born.GetComponent<Renderer>().material = ConnectedMaterial;
+        if (Born.gameObject != null)
+            Born.GetComponent<Renderer>().material = ConnectedMaterial;
         attachedCable = cable;
     }
 
     private void DetachCable()
     {
-        Born.GetComponent<Renderer>().material = DisconnectedMaterial;
+        if (Born.gameObject != null)
+            Born.GetComponent<Renderer>().material = DisconnectedMaterial;
         Cable cable = attachedCable;
         if (cable != null)
         {
