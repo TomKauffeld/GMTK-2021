@@ -2,23 +2,17 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Level_1 : MonoBehaviour
+public class Level_1 : ALevel
 {
-    public string NextLevel;
 
-
-    EventsSystem eventsSystem;
-
-    void Start()
+    protected override void Start()
     {
-        eventsSystem = FindObjectOfType<EventsSystem>();
-        StartCoroutine(Startup());
+        base.Start();
         eventsSystem.OnCableCreated.AddListener(OnCableCreated);
         eventsSystem.OnEnterZone.AddListener(OnEnterZone);
-        eventsSystem.OnVictory.AddListener(OnVictory);
     }
 
-    IEnumerator Startup()
+    protected override IEnumerator Startup()
     {
         yield return new WaitForSeconds(0.5f);
         eventsSystem.OnNewMessage.Invoke("Welcome to our game", 1, 3, 2);
@@ -26,21 +20,18 @@ public class Level_1 : MonoBehaviour
         eventsSystem.OnNewMessage.Invoke("Walk towards one of the houses", 1, 3, 2);
     }
 
-    void OnEnterZone(string zone, IEnable enable)
+    private void OnEnterZone(string zone, IEnable enable)
     {
         eventsSystem.OnNewMessage.Invoke("Try Clicking on the black circle", 1, 3, 2);
         enable.Enabled = false;
     }
 
-    void OnCableCreated()
+    private void OnCableCreated()
     {
         eventsSystem.OnNewMessage.Invoke("Now goto the other house", 1, 3, 2);
     }
 
-   
-    void OnVictory() => StartCoroutine(Closing());
-
-    IEnumerator Closing()
+    protected override IEnumerator Closing()
     {
         yield return new WaitForSeconds(0.5f);
         eventsSystem.OnNewMessage.Invoke("Well Done :)", 1, 2, 2);
@@ -50,10 +41,10 @@ public class Level_1 : MonoBehaviour
         SceneManager.LoadSceneAsync(NextLevel, LoadSceneMode.Single);
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
         eventsSystem.OnCableCreated.RemoveListener(OnCableCreated);
         eventsSystem.OnEnterZone.RemoveListener(OnEnterZone);
-        eventsSystem.OnVictory.RemoveListener(OnVictory);
+        base.OnDestroy();
     }
 }

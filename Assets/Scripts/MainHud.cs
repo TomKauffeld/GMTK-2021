@@ -8,6 +8,7 @@ public class MainHud : MonoBehaviour
 {
     public bool Pause { get => Menu.activeSelf; set => Menu.SetActive(value); }
     public GameObject MessagePanel;
+    public GameObject CenterScreen;
 
     private AsyncOperation Operation = null;
 
@@ -41,6 +42,7 @@ public class MainHud : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CenterScreen.SetActive(!Pause);
         float distance = Mathf.Round(cableLayer.CurrentLength * 10) / 10;
         float maxDistance = Mathf.Round(cableLayer.MaxRange * 10) / 10;
         if (distance != lastDistance || maxDistance != lastMaxDistance)

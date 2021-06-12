@@ -56,6 +56,19 @@ public class InputManager : MonoBehaviour
         return moveInput;
     }
 
+    public static Vector3 GetRotation()
+    {
+        float pitch = Input.GetAxisRaw("Pitch") * (Settings.InversePitch ? 1 : -1) * Settings.Sensibility * 15;
+        float yaw = Input.GetAxisRaw("Yaw") * (Settings.InverseYaw ? -1 : 1) * Settings.Sensibility * 15;
+        Vector3 rotation = new Vector3(pitch, yaw, 0);
+        if (GetAction(Actions.TURN_LEFT))
+            rotation.y -= 90;
+        if (GetAction(Actions.TURN_RIGHT))
+            rotation.y += 90;
+        return rotation;
+    }
+
+
     public static bool GetPrimaryDown()
     {
         bool primary = Input.GetAxisRaw("Primary") > 0 || GetActionDown(Actions.PRIMARY);

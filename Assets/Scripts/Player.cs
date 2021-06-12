@@ -8,9 +8,10 @@ public class Player : MonoBehaviour
 
     public float interval = 0.1f;
     public float moveSpeed = 5;
-    public float rotationSpeed = 5;
+    public float rotationSpeed = 1;
     PlayerController controller;
     Camera viewCamera;
+    CameraController cameraController;
     CableLayer myCableLayer;
     MainHud hud;
 
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour
         myCableLayer = GetComponent<CableLayer>();
         hud = GetComponentInChildren<MainHud>();
         viewCamera = Camera.main;
+        cameraController = viewCamera.GetComponent<CameraController>();
     }
 
     private void CheckCableInteraction(Vector3 point)
@@ -52,28 +54,28 @@ public class Player : MonoBehaviour
 
         if (hud.Pause)
         {
-
+            Cursor.lockState = CursorLockMode.None;
         }
         else
         {
+            Cursor.lockState = CursorLockMode.Locked;
             elapsed += Time.deltaTime;
 
             Vector3 moveInput = InputManager.GetMovement();
             Vector3 moveVelocity = moveInput.normalized * moveSpeed;
             controller.Move(moveVelocity);
 
-            Vector3 rotation = Vector3.zero;
-            if (InputManager.GetAction(Actions.TURN_LEFT))
-                rotation.y -= rotationSpeed;
-            else if (InputManager.GetAction(Actions.TURN_RIGHT))
-                rotation.y += rotationSpeed;
-            controller.Rotate(rotation);
+            Vector3 rotation = InputManager.GetRotation();
+            Vector3 rotationVelocity = rotation * rotationSpeed;
+            controller.Rotate(Vector3.up * rotationVelocity.y);
+            cameraController.Rotate(rotationVelocity.x);
 
 
 
 
 
-            Ray ray = viewCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = new Ray(viewCamera.transform.position, viewCamera.transform.rotation * Vector3.forward);
+            //Ray ray = viewCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 Vector3 point = new Vector3(hit.point.x, 0.1f, hit.point.z);
@@ -93,5 +95,10 @@ public class Player : MonoBehaviour
                 CheckCableInteraction(point);
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        Cursor.lockState = CursorLockMode.None;
     }
 }

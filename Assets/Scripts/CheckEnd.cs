@@ -13,12 +13,6 @@ public class CheckEnd : MonoBehaviour
     float targetElapsedTime = 0.1f;
     float elapsed = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Save.LastLevel = gameObject.scene.name;
-    }
-
     public int Index { private set; get; } = 0;
     private bool allOk = true;
 
