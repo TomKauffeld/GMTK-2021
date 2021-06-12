@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public float interval = 0.1f;
     public float moveSpeed = 5;
     public float rotationSpeed = 5;
+    public AInputManager inputManager;
     PlayerController controller;
     Camera viewCamera;
     CableLayer myCableLayer;
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
     private void CheckCableInteraction(Vector3 point)
     {
 
-        if (Input.GetKeyDown(Settings.CableInteraction))
+        if (inputManager.GetPrimaryDown())
         {
             if (myCableLayer.HasCable)
             {
@@ -36,7 +37,7 @@ public class Player : MonoBehaviour
                 myCableLayer.PickupCable(point);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Delete))
+        else if (inputManager.GetSecondaryDown())
         {
             myCableLayer.DeleteCable();
         }
@@ -45,14 +46,15 @@ public class Player : MonoBehaviour
     void Update()
     {
         elapsed += Time.deltaTime;
-        Vector3 moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+
+        Vector3 moveInput = inputManager.GetMovement();
         Vector3 moveVelocity = moveInput.normalized * moveSpeed;
         controller.Move(moveVelocity);
 
         Vector3 rotation = Vector3.zero;
-        if (Input.GetKey(KeyCode.Q))
+        if (inputManager.GetAction(Actions.TURN_LEFT))
             rotation.y -= rotationSpeed;
-        else if (Input.GetKey(KeyCode.E))
+        else if (inputManager.GetAction(Actions.TURN_RIGHT))
             rotation.y += rotationSpeed;
         controller.Rotate(rotation);
 
@@ -79,6 +81,9 @@ public class Player : MonoBehaviour
 
             CheckCableInteraction(point);
         }
+
+        if (inputManager.GetActionDown(Actions.CHANGE_LAYOUT))
+            inputManager.SwitchLayout();
 
     }
 }

@@ -63,6 +63,11 @@ public class Cable : MonoBehaviour
             }
             Vector3 lastPoint = new Vector3(LastPoint.x, 0.1f, LastPoint.z);
             Vector3 target = new Vector3(Target.x, 0.1f, Target.z);
+
+            if (NavMesh.SamplePosition(target, out NavMeshHit hit, 10, NavMesh.AllAreas))
+                target = hit.position;
+
+
             NavMeshPath path = new NavMeshPath();
             NavMesh.CalculatePath(lastPoint, target, NavMesh.AllAreas, path);
             if (path.corners.Length > 2)
