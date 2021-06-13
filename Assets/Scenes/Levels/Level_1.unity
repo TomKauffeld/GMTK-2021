@@ -170,51 +170,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetCheckTime: 0.5
   NextScene: Assets/Scenes/Levels/Level_2.unity
---- !u!1 &200170113
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 200170115}
-  - component: {fileID: 200170114}
-  m_Layer: 0
-  m_Name: WindZone
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!182 &200170114
-WindZone:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 200170113}
-  m_Enabled: 1
-  m_Mode: 1
-  m_Radius: 200
-  m_WindMain: 1
-  m_WindTurbulence: 0.15
-  m_WindPulseMagnitude: 0.5
-  m_WindPulseFrequency: 0.05
---- !u!4 &200170115
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 200170113}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -452.42, y: 17.82, z: -17.16}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
 --- !u!1 &216660496
 GameObject:
   m_ObjectHideFlags: 0
@@ -779,7 +734,6 @@ Terrain:
   m_DrawHeightmap: 1
   m_DrawInstanced: 0
   m_DrawTreesAndFoliage: 1
-  m_StaticShadowCaster: 0
   m_ReflectionProbeUsage: 1
   m_MaterialTemplate: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
   m_BakeLightProbesForTrees: 1
@@ -1014,6 +968,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bb3b06db6ca42c4b8d224803073a585, type: 3}
+--- !u!1001 &3141998985436509115
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3141998985518704952, guid: 444be168ae727714f9b80bdd582004fa, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141998985518704952, guid: 444be168ae727714f9b80bdd582004fa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -452.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141998985518704952, guid: 444be168ae727714f9b80bdd582004fa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 17.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141998985518704952, guid: 444be168ae727714f9b80bdd582004fa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -17.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141998985518704952, guid: 444be168ae727714f9b80bdd582004fa, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141998985518704952, guid: 444be168ae727714f9b80bdd582004fa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141998985518704952, guid: 444be168ae727714f9b80bdd582004fa, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141998985518704952, guid: 444be168ae727714f9b80bdd582004fa, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141998985518704952, guid: 444be168ae727714f9b80bdd582004fa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141998985518704952, guid: 444be168ae727714f9b80bdd582004fa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 270
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141998985518704952, guid: 444be168ae727714f9b80bdd582004fa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141998985518704954, guid: 444be168ae727714f9b80bdd582004fa, type: 3}
+      propertyPath: m_Name
+      value: WindZone
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 444be168ae727714f9b80bdd582004fa, type: 3}
 --- !u!1001 &4597952396660260174
 PrefabInstance:
   m_ObjectHideFlags: 0
