@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CableConnector : MonoBehaviour
+[RequireComponent(typeof(Light))]
+public class CableConnector : MonoBehaviour, IHighlightable
 {
     public GameObject Born;
     public Material ConnectedMaterial;
@@ -21,6 +22,9 @@ public class CableConnector : MonoBehaviour
 
 
     Cable attachedCable = null;
+
+    private bool highlighted = false;
+    private Light lightComponent;
 
     public void SetAttachedCable(Cable cable)
     {
@@ -94,16 +98,20 @@ public class CableConnector : MonoBehaviour
         return PrivateGetConnections();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         Born.GetComponent<Renderer>().material = AttachedCable != null ? ConnectedMaterial : DisconnectedMaterial;
         eventsSystem = FindObjectOfType<EventsSystem>();
+        lightComponent = GetComponent<Light>();
     }
 
 
-    // Update is called once per frame
-    void Update()
+    public void SetHighlight(bool value)
     {
+        if (value && !highlighted)
+            lightComponent.enabled = true;
+        else if (!value && highlighted)
+            lightComponent.enabled = false;
+        highlighted = value;
     }
 }

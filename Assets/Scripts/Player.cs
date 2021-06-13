@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
         }
     }
 
+    private IHighlightable highlightable = null;
+
     void Update()
     {
         if (InputManager.GetActionDown(Actions.PAUSE))
@@ -54,11 +56,15 @@ public class Player : MonoBehaviour
 
         if (hud.Pause)
         {
-            Cursor.lockState = CursorLockMode.None;
+            if (Cursor.lockState != CursorLockMode.None)
+                Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         else
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            if (Cursor.lockState != CursorLockMode.Locked)
+                Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             elapsed += Time.deltaTime;
 
             Vector3 moveInput = InputManager.GetMovement();
@@ -78,6 +84,14 @@ public class Player : MonoBehaviour
             //Ray ray = viewCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
+                if (highlightable != null)
+                    highlightable.SetHighlight(false);
+                highlightable = hit.collider.GetComponent<IHighlightable>();
+                if (highlightable == null)
+                    highlightable = hit.collider.GetComponentInParent<IHighlightable>();
+                if (highlightable != null)
+                    highlightable.SetHighlight(true);
+
                 Vector3 point = new Vector3(hit.point.x, 0.1f, hit.point.z);
                 Vector3 target = point;
                 Vector3 diff = point - (transform.position + new Vector3(0, -1, 0));
