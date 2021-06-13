@@ -85,7 +85,7 @@ public class InputManager : MonoBehaviour
         return ret;
     }
 
-    protected static KeyCode GetKeyCodeForAction(Actions action) => Keys[Settings.Layout][action];
+    public static KeyCode GetKeyCodeForAction(Actions action) => Keys[Settings.Layout][action];
 
     public static bool GetAction(Actions actions) => Input.GetKey(GetKeyCodeForAction(actions));
 

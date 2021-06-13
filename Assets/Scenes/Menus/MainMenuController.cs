@@ -5,14 +5,9 @@ using UnityEngine.UI;
 public class MainMenuController : MonoBehaviour
 {
     public Button ButtonContinue;
-    public Button ButtonHelp;
 
     private AsyncOperation Operation = null;
-    // Start is called before the first frame update
-    void Start()
-    {
-        ButtonHelp.interactable = false;
-    }
+
 
     // Update is called once per frame
     void Update()
@@ -36,4 +31,6 @@ public class MainMenuController : MonoBehaviour
     public void OnClickSettings() => LoadNewScene(Menus.SETTINGS);
 
     public void OnClickCredits() => LoadNewScene(Menus.CREDITS);
+
+    public void OnClickHelp() => LoadNewScene(Menus.HELP);
 }
