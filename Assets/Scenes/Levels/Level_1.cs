@@ -4,12 +4,14 @@ using UnityEngine.SceneManagement;
 
 public class Level_1 : ALevel
 {
+    public CanvasGroup Controls;
 
     protected override void Start()
     {
         base.Start();
         eventsSystem.OnCableCreated.AddListener(OnCableCreated);
         eventsSystem.OnEnterZone.AddListener(OnEnterZone);
+        Controls.alpha = 1;
     }
 
     protected override IEnumerator Startup()

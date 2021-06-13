@@ -666,6 +666,7 @@ MonoBehaviour:
   MaxDistance: 30
   CableParent: {fileID: 1778858181}
   NextLevel: Assets/Scenes/Levels/Level_2.unity
+  Controls: {fileID: 6436152104627593278}
 --- !u!4 &1692580132
 Transform:
   m_ObjectHideFlags: 0
@@ -1238,6 +1239,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1034097471623673202, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034097471623673202, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034097471932329381, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034097471932329381, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034097471932329381, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6436152106021817252, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
       propertyPath: CableParent
       value: 
@@ -1296,6 +1317,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
+--- !u!225 &6436152104627593278 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 2371423500355205098, guid: 927e32fc9b629a84b96b9d6a14fda16b, type: 3}
+  m_PrefabInstance: {fileID: 6436152104627593277}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8731973116615965726
 Transform:
   m_ObjectHideFlags: 0
