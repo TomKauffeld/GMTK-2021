@@ -218,7 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxDistance: 20
   CableParent: {fileID: 1778858181}
-  NextLevel: Assets/Scenes/Menus/MenuCredits.unity
+  NextLevel: Assets/Scenes/Levels/Level_6.unity
 --- !u!4 &104697615 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3890161054195736415, guid: bfe311c65bddb5c4b8ad6cbd5a9d236f, type: 3}
