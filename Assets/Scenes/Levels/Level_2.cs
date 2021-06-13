@@ -28,21 +28,21 @@ public class Level_2 : ALevel
     protected override IEnumerator Startup()
     {
         yield return new WaitForSeconds(0.5f);
-        eventsSystem.OnNewMessage.Invoke("This is the same as last time", 1, 3, 2);
+        eventsSystem.OnNewMessage.Invoke("This is the same as last time", 0, 2, 1);
         yield return new WaitForSeconds(0.5f);
-        eventsSystem.OnNewMessage.Invoke("Walk towards one of the houses", 1, 3, 2);
+        eventsSystem.OnNewMessage.Invoke("Walk towards one of the houses", 0, 2, 1);
     }
 
     private void OnCableCreated()
     {
         if (State == StateEnum.CREATE_CABLE)
         {
-            eventsSystem.OnNewMessage.Invoke("Now goto the other house", 1, 3, 2);
+            eventsSystem.OnNewMessage.Invoke("Now goto the other house", 0, 2, 1);
             State = StateEnum.GOTO_HOUSE;
         }
         else if (State == StateEnum.CREATE_ON_SWITCH)
         {
-            eventsSystem.OnNewMessage.Invoke("Now you can connect the other house", 1, 3, 2);
+            eventsSystem.OnNewMessage.Invoke("Now you can connect the other house", 0, 2, 1);
             State = StateEnum.CONNECT_TO_HOUSE;
         }
     }
@@ -59,11 +59,11 @@ public class Level_2 : ALevel
     private IEnumerator CreateSwitch()
     {
         yield return new WaitForSeconds(0.5f);
-        eventsSystem.OnNewMessage.Invoke("As you see, sometimes the cable is red", 1, 2, 0.5f);
-        eventsSystem.OnNewMessage.Invoke("This means the cable is too long", 0.5f, 1, 0.5f);
-        eventsSystem.OnNewMessage.Invoke("For this you can use a switch", 0.5f, 1, 0.5f);
-        eventsSystem.OnNewMessage.Invoke("Like the one that just spawned", 0.5f, 1, 0.5f);
-        yield return new WaitForSeconds(8);
+        eventsSystem.OnNewMessage.Invoke("As you see, sometimes the cable is red", 0, 2, 0);
+        eventsSystem.OnNewMessage.Invoke("This means the cable is too long", 0, 1.5f, 0);
+        eventsSystem.OnNewMessage.Invoke("For this you can use a switch", 0, 1.5f, 0);
+        eventsSystem.OnNewMessage.Invoke("Like the one that just spawned", 0, 1.5f, 1);
+        yield return new WaitForSeconds(6);
         Switch.SetActive(true);
 
     }
@@ -71,10 +71,10 @@ public class Level_2 : ALevel
     protected override IEnumerator Closing()
     {
         yield return new WaitForSeconds(0.5f);
-        eventsSystem.OnNewMessage.Invoke("Well Done :)", 1, 2, 2);
-        yield return new WaitForSeconds(5);
-        eventsSystem.OnNewMessage.Invoke("Up to the next Level", 1, 2, 2);
-        yield return new WaitForSeconds(6);
+        eventsSystem.OnNewMessage.Invoke("Well Done :)", 0, 2, 1);
+        yield return new WaitForSeconds(3);
+        eventsSystem.OnNewMessage.Invoke("Up to the next Level", 0, 2, 1);
+        yield return new WaitForSeconds(3);
         SceneManager.LoadSceneAsync(NextLevel, LoadSceneMode.Single);
     }
 
