@@ -35,4 +35,6 @@ public class MainMenuController : MonoBehaviour
     public void OnClickContinue() => LoadNewScene(Save.LastLevel);
 
     public void OnClickSettings() => LoadNewScene(Menus.SETTINGS);
+
+    public void OnClickCredits() => LoadNewScene(Menus.CREDITS);
 }
