@@ -3,6 +3,8 @@ using UnityEngine;
 
 public abstract class ALevel : MonoBehaviour
 {
+    public float MaxDistance = 30;
+    public Transform CableParent = null;
     public string NextLevel;
 
     protected EventsSystem eventsSystem;

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainHud : MonoBehaviour
@@ -13,7 +12,6 @@ public class MainHud : MonoBehaviour
     private AsyncOperation Operation = null;
 
     public Text DistanceText;
-    public Text LayoutText;
     public Text LevelText;
     public GameObject Menu;
 
@@ -21,7 +19,6 @@ public class MainHud : MonoBehaviour
     float lastMaxDistance = 0;
     CableLayer cableLayer;
     string distanceFormat = "{0}{1}";
-    string layoutFormat = "{0}";
     string levelFormat = "{0}";
     private float timeRemaining = 0;
 
@@ -33,7 +30,6 @@ public class MainHud : MonoBehaviour
     {
         cableLayer = GetComponentInParent<CableLayer>();
         distanceFormat = DistanceText.text;
-        layoutFormat = LayoutText.text;
         levelFormat = LevelText.text;
         Menu.SetActive(false);
         FindObjectOfType<EventsSystem>().OnNewMessage.AddListener(AddMessage);
@@ -47,7 +43,6 @@ public class MainHud : MonoBehaviour
         float maxDistance = Mathf.Round(cableLayer.MaxRange * 10) / 10;
         if (distance != lastDistance || maxDistance != lastMaxDistance)
             DistanceText.text = string.Format(distanceFormat, distance, maxDistance);
-        LayoutText.text = string.Format(layoutFormat, Settings.Layout.ToString());
         LevelText.text = string.Format(levelFormat, gameObject.scene.name);
 
 
@@ -74,20 +69,13 @@ public class MainHud : MonoBehaviour
 
             timeRemaining = controller.TotalTime * 1.1f;
         }
-        else if (timeRemaining > 0)
+        else if (timeRemaining > 0 && !Pause)
             timeRemaining -= Time.deltaTime;
 
     }
 
-    public void SwitchLayout() => Settings.SwitchLayout();
 
-    private void LoadNewScene(string scene)
-    {
-        if (Operation != null || scene == null)
-            return;
-        Operation = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);
-    }
-    public void BackToMenu() => LoadNewScene(Menus.MAIN);
+    public void OnClickContinue() => Pause = false;
 
 
 

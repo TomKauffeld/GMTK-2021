@@ -54,6 +54,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -95,7 +96,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.1995356, y: 1.7711164, z: 2.8344638}
+  m_Size: {x: 3.2, y: 1.781116, z: 2.84}
   m_Center: {x: -0.000030379248, y: 0.6617913, z: 1.1731254}
 --- !u!208 &5095484365199848968
 NavMeshObstacle:

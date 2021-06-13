@@ -2,13 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Level_4 : ALevel
+public class Level_5 : ALevel
 {
 
     protected override IEnumerator Startup()
     {
         yield return new WaitForSeconds(0.5f);
-        eventsSystem.OnNewMessage.Invoke("Now we have 4 houses and 2 switches", 1, 3, 2);
+        eventsSystem.OnNewMessage.Invoke("A little bit more difficult...", 1, 3, 2);
     }
 
     protected override IEnumerator Closing()

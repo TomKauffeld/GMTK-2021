@@ -4,13 +4,13 @@ using UnityEngine;
 public class CableLayer : MonoBehaviour
 {
 
-    public float MaxRange = 10;
-
     public GameObject CablePrototype;
-    public Transform CableParent = null;
     public float Range = 10;
-    public float PointRange = 1;
+    public float PointRange = 2;
     public bool Direct = false;
+    ALevel level;
+
+    public float MaxRange => level.MaxDistance;
 
     public float CurrentLength => currentCable != null ? currentCable.GetComponent<Cable>().Length : 0;
 
@@ -25,6 +25,7 @@ public class CableLayer : MonoBehaviour
     {
         currentCable = null;
         eventsSystem = FindObjectOfType<EventsSystem>();
+        level = FindObjectOfType<ALevel>();
     }
 
     public void DeleteCable()
@@ -82,10 +83,10 @@ public class CableLayer : MonoBehaviour
             else
             {
                 currentCable = Instantiate(CablePrototype);
-                if (CableParent != null)
-                    currentCable.transform.SetParent(CableParent);
+                if (level.CableParent != null)
+                    currentCable.transform.SetParent(level.CableParent);
                 Cable cable = currentCable.GetComponent<Cable>();
-                cable.MaxLength = MaxRange;
+                cable.MaxLength = level.MaxDistance;
                 cable.Begin = connector;
                 connector.AttachedCable = cable;
             }

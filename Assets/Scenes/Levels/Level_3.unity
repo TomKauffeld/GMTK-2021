@@ -417,6 +417,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35093fe69e4680349a638e4ce94755ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxDistance: 30
+  CableParent: {fileID: 1778858181}
   NextLevel: Assets/Scenes/Levels/Level_4.unity
 --- !u!4 &1692580132
 Transform:
