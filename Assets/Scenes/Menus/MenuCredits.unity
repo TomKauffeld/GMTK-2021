@@ -338,7 +338,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Team:\n\n\n\nLead Developer:\n\nUkhand\xF8 Ithunzi\n\n\n\nDevelopers:\n\n0auBSQ\nGhostMay"
+  m_Text: "Team:\n\n\nLead Developer:\n\nUkhand\xF8 Ithunzi\n\n\nDevelopers:\n\n0auBSQ\nGhostMay\n\n\nAnd
+    a thanks to \nMimusAngel for some of the Assets"
 --- !u!222 &1258109038
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -550,7 +551,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Thanks to the Twitch Chatters who kept my awake during those 48 hours:
+  m_Text: 'Thanks to the Twitch Chatters who kept me awake during those 48 hours:
 
 
     chevrebs
@@ -568,8 +569,6 @@ MonoBehaviour:
     blacksoldier1249
 
     Simblible
-
-    MimusAngel
 
     Eliottness
 
