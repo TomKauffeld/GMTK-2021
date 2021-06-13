@@ -114,5 +114,6 @@ public class Player : MonoBehaviour
     private void OnDestroy()
     {
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }
