@@ -44,7 +44,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Build
-          path: build
+          path: Build
 
       - name: Install cosign
         uses: sigstore/cosign-installer@v3

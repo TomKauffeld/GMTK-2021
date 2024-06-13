@@ -1,2 +1,2 @@
 FROM nginx:mainline-alpine
-COPY /Build /usr/share/nginx/html
+COPY /Build/WebGL/WebGL /usr/share/nginx/html
